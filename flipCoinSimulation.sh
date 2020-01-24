@@ -14,6 +14,7 @@ flipCoin=$((RANDOM%2))
 		 SingleCoinFlipDictionary[TAIL]=$((${SingleCoinFlipDictionary[TAIL]}+1*100/12))
 	fi
 done
+echo "Single coin fliped.."
 echo ${!SingleCoinFlipDictionary[@]}
 echo "Percentage respectively:"
 echo ${SingleCoinFlipDictionary[@]}
@@ -23,8 +24,6 @@ for (( j=1; j<=12; j++ ))
 do
 firstFlip=$((RANDOM%2))
 secondFlip=$((RANDOM%2))
-#echo $firstFlip
-#echo $secondFlip
 	if [ $firstFlip -eq $HEAD -a $secondFlip -eq $HEAD ]
 	then
 		DoubleCoinFlipDictionary[HEADHEAD]=$((${DoubleCoinFlipDictionary[HEADHEAD]}+1*100/12))
@@ -38,33 +37,7 @@ secondFlip=$((RANDOM%2))
 		DoubleCoinFlipDictionary[TAILTAIL]=$((${DoubleCoinFlipDictionary[TAILTAIL]}+1*100/12))
 	fi
 done
-
+echo "Two coins fliped..."
 echo ${!DoubleCoinFlipDictionary[@]}
+echo "Perentage Respectively"
 echo ${DoubleCoinFlipDictionary[@]}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
