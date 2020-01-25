@@ -19,10 +19,29 @@ do
 		fi
 	done
 	CoinFlipDictionary[$str]=$((${CoinFlipDictionary[$str]}+1))
-	coinFlipDictonaryPercentage[$str]=$((${coinFlipDictonaryPercentage[$str]}+1*100/$2))
+   coinFlipDictonaryPercentage[$str]=$((${coinFlipDictonaryPercentage[$str]}+1*100/$2))
 done
 }
 
+sortPercentage()
+{
+	echo "--------------------------------------------------------------------------------------------------------------------------"
+   for i in ${!coinFlipDictonaryPercentage[@]}
+   do
+      for j in ${!coinFlipDictonaryPercentage[@]}
+      do
+         if((${coinFlipDictonaryPercentage[$j]} < ${coinFlipDictonaryPercentage[$i]}))
+         then
+               temp=${coinFlipDictonaryPercentage[$i]}
+               coinFlipDictonaryPercentage[$i]=${coinFlipDictonaryPercentage[$j]}
+               coinFlipDictonaryPercentage[$j]=$temp
+         fi
+      done
+   done
+   echo "After Sorting : "
+   echo "The Winning kes Accordingly: ${!coinFlipDictonaryPercentage[@]}"
+   echo "The wining combination accordingly: ${coinFlipDictonaryPercentage[@]}"
+}
 echo "1.One Coin"
 echo "2.Two Coins"
 echo "3.Three Coins"
@@ -45,3 +64,5 @@ echo "--------------------------------------------------------------------------
 echo "Coin Percentage Respectively:"
 echo ${!coinFlipDictonaryPercentage[@]}
 echo ${coinFlipDictonaryPercentage[@]}
+
+sortPercentage
