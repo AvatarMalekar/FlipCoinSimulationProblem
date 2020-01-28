@@ -1,10 +1,12 @@
 #!/bin/bash
 echo "-------------------------------------------WELLOME FLIP COIN SIMULATION PROBLEM--------------------------------------------------"
+#CONSTANT
 HEAD=0;
 TAIL=1;
-declare -A CoinFlipDictionary
-declare -A coinFlipDictonaryPercentage
-function flipCoin(){
+
+declare -A coinFlipDictionary
+
+flipCoin(){
 for (( i=0; i<$2; i++  ))
 do
 	str=""
@@ -18,29 +20,33 @@ do
 			str="${str}T"
 		fi
 	done
-	CoinFlipDictionary[$str]=$((${CoinFlipDictionary[$str]}+1))
-   coinFlipDictonaryPercentage[$str]=$((${coinFlipDictonaryPercentage[$str]}+1*100/$2))
+	coinFlipDictionary[$str]=$((${coinFlipDictionary[$str]}+1))
+done
+}
+getPercentage(){
+for i in ${!coinFlipDictionary[@]}
+do
+	coinFlipDictionary[$i]=`echo "scale=2; ${coinFlipDictionary[$i]}*100/$flipCount" | bc`
 done
 }
 
-sortPercentage()
-{
-	echo "--------------------------------------------------------------------------------------------------------------------------"
-   for i in ${!coinFlipDictonaryPercentage[@]}
-   do
-      for j in ${!coinFlipDictonaryPercentage[@]}
-      do
-         if((${coinFlipDictonaryPercentage[$j]} < ${coinFlipDictonaryPercentage[$i]}))
-         then
-               temp=${coinFlipDictonaryPercentage[$i]}
-               coinFlipDictonaryPercentage[$i]=${coinFlipDictonaryPercentage[$j]}
-               coinFlipDictonaryPercentage[$j]=$temp
-         fi
-      done
-   done
-   echo "After Sorting : "
-   echo "The Winning kes Accordingly: ${!coinFlipDictonaryPercentage[@]}"
-   echo "The wining combination accordingly: ${coinFlipDictonaryPercentage[@]}"
+sortPercentage(){
+echo "--------------------------------------------------------------------------------------------------------------------------"
+for i in ${!coinFlipDictionary[@]}
+do
+	for j in ${!coinFlipDictionary[@]}
+	do
+	if [ ${coinFlipDictionary[$i]%%.*} -gt ${coinFlipDictionary[$j]%%.*} ]
+	then
+		temp=${coinFlipDictionary[$i]}
+		coinFlipDictionary[$i]=${coinFlipDictionary[$j]}
+		coinFlipDictionary[$j]=$temp
+	fi
+	done
+done
+echo "After Sorting : "
+echo "The Winning kes Accordingly: ${!coinFlipDictionary[@]}"
+echo "The wining combination accordingly: ${coinFlipDictionary[@]}"
 }
 echo "1.One Coin"
 echo "2.Two Coins"
@@ -56,13 +62,18 @@ else
 	coinCount=0
 fi
 echo "------------------------------------------------------------------------------------------------------------------------------"
+
 flipCoin $coinCount $flipCount
+
 echo "Coin Simulaton Respectively:"
-echo ${!CoinFlipDictionary[@]}
-echo ${CoinFlipDictionary[@]}
+echo ${!coinFlipDictionary[@]}
+echo ${coinFlipDictionary[@]}
+
+getPercentage $flipCount
+
 echo "------------------------------------------------------------------------------------------------------------------------------"
 echo "Coin Percentage Respectively:"
-echo ${!coinFlipDictonaryPercentage[@]}
-echo ${coinFlipDictonaryPercentage[@]}
+echo ${!coinFlipDictionary[@]}
+echo ${coinFlipDictionary[@]}
 
 sortPercentage
